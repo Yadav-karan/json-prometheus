@@ -16,8 +16,11 @@
       - targets: ['localhost:8181']  # Replace with your Spring Boot app's host and port
 
 
-Once done try hitiing the various endpoints
+Once done try hitiing the below endpoint
 http://localhost:8181/with-feature-file/sample-metrics
-<img width="959" alt="image" src="https://github.com/user-attachments/assets/74dc218f-9457-472c-93cd-f4d5159fdd26" />
+you should be getting these metrics in browser
+
+<img width="956" alt="image" src="https://github.com/user-attachments/assets/420eda21-9c97-44fa-a165-e32708bd17e6" />
+
 
 
