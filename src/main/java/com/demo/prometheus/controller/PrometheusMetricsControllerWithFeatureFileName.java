@@ -1,10 +1,15 @@
 package com.demo.prometheus.controller;
+import com.demo.prometheus.service.PrometheusPushService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.common.TextFormat;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +26,9 @@ public class PrometheusMetricsControllerWithFeatureFileName {
 	@Value("${json.data.file}")
 	private String filePath;
 
+	@Autowired
+	private PrometheusPushService prometheusPushService;
+	
 	private static final Gauge stepDurationGauge = Gauge.build()
 	        .name("test_step_duration_seconds")
 	        .help("Duration of each test step in miliseconds")
@@ -87,5 +95,10 @@ public class PrometheusMetricsControllerWithFeatureFileName {
             }
         }
     }
-
+    
+    @GetMapping("/push-metrics")
+    public ResponseEntity<String> getPushBasedMetrics() throws Exception{
+    	prometheusPushService.pushMetrics(filePath);
+    	return new ResponseEntity<>("Metrics Pushed Successfully",HttpStatus.OK);
+    }
 }
